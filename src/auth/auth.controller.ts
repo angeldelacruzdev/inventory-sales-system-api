@@ -1,26 +1,27 @@
-import { GetCurrentUser } from './../common/decorator/get-current-user.decorator';
 import { RtGuard } from './../common/guards/rt.guard';
-import { GetCurrentUserId } from './../common/decorator/get-current-user-id.decorator';
 import { Tokens } from './../types/tokens.type';
 import { CreateUserDto } from './../users/dto/create-user.dto';
 import { AuthDto } from './../dto/auth.dto';
-import { Public } from './../common/decorator/public.decorator';
+
 import { AuthService } from './auth.service';
+import {
+  GetCurrentUserId,
+  GetCurrentUser,
+  Public,
+} from './../common/decorator';
 
 import {
   Body,
   Controller,
   Post,
-  Request,
   UseGuards,
-  Get,
   HttpStatus,
   HttpCode,
 } from '@nestjs/common';
 
 @Controller({
   path: 'auth',
-  version: '1.0.2',
+  version: '1',
 })
 export class AuthController {
   constructor(private authService: AuthService) {}
@@ -33,7 +34,7 @@ export class AuthController {
   }
 
   @Public()
-  @Get('/register')
+  @Post('/register')
   @HttpCode(HttpStatus.CREATED)
   async register(@Body() dto: CreateUserDto): Promise<Tokens> {
     return await this.authService.register(dto);

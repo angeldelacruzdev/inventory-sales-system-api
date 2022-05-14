@@ -1,7 +1,7 @@
  
 ## Description
 
-[Inventory System](https://github.com/angeldelacruzdev/inventory-sales-system-api) framework TypeScript starter repository.
+[Inventory System](https://github.com/angeldelacruzdev/inventory-sales-system-api) Nestjs framework TypeScript starter repository.
 
 ## Installation
 
@@ -29,7 +29,7 @@ $ npm run start:prod
 $ npm run test
 
 # e2e tests
-$ npm run test:e2e
+$ npm run test:e2e 
 
 # test coverage
 $ npm run test:cov
@@ -46,3 +46,7 @@ $ npm run test:cov
 ## License
 
 Nest is [MIT licensed](LICENSE).
+
+
+
+
