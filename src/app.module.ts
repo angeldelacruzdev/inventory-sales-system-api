@@ -7,6 +7,7 @@ import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
 import { AtGuard } from './common/guards';
+import { CategoryModule } from './category/category.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { AtGuard } from './common/guards';
     DatabaseModule,
     AuthModule,
     UsersModule,
+    CategoryModule,
   ],
   controllers: [AppController],
   providers: [
