@@ -196,7 +196,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Yucas\"\r\n}",
+							"raw": "{\r\n    \"name\": \"Verduras de bulbo\",\r\n    \"description\": \"Cebollinos, puerro, cebolla, ajetes, ajo, nabo.\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -301,6 +301,122 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Product",
+			"item": [
+				{
+					"name": "Save",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Cebollinos\",\r\n    \"inventory_min\":1200,\r\n    \"unit\": \"libras\",\r\n    \"presentation\": \"Bolsa\",\r\n    \"price_in\": 27,\r\n    \"price_out\": 30,\r\n    \"category\": 4,\r\n    \"user\": 2\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL_SALES}}/v1/product",
+							"host": [
+								"{{URL_SALES}}"
+							],
+							"path": [
+								"v1",
+								"product"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Porduct",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL_SALES}}/v1/product",
+							"host": [
+								"{{URL_SALES}}"
+							],
+							"path": [
+								"v1",
+								"product"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL_SALES}}/v1/product/11",
+							"host": [
+								"{{URL_SALES}}"
+							],
+							"path": [
+								"v1",
+								"product",
+								"11"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"category\": 4,\r\n    \"user\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL_SALES}}/v1/product/9",
+							"host": [
+								"{{URL_SALES}}"
+							],
+							"path": [
+								"v1",
+								"product",
+								"9"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL_SALES}}/v1/product/12",
+							"host": [
+								"{{URL_SALES}}"
+							],
+							"path": [
+								"v1",
+								"product",
+								"12"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"auth": {
@@ -308,7 +424,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyIiwiZW1haWwiOiJhbmdlbEBnbWFpbC5jb20iLCJpYXQiOjE2NTI0OTMwMjAsImV4cCI6MTY1MjU3OTQyMH0.W0cqSsBhmy-MdAdEAfGI-Cwcce0r00Y37crc6bik3UY",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyIiwiZW1haWwiOiJhbmdlbEBnbWFpbC5jb20iLCJpYXQiOjE2NTI1OTMzOTUsImV4cCI6MTY1MjY3OTc5NX0.DDBUN_elpUldARS9xox9jQVVCs36KxqGuEPWL8wyVqg",
 				"type": "string"
 			}
 		]
