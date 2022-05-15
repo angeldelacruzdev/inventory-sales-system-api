@@ -37,7 +37,7 @@ export class AuthService {
 
   //Refrescar sesión
   async refreshTokens(userId: number, rt: string) {
-    const user = await this.userService.findOne(userId);
+    const user = await this.userService.findOneById(userId);
 
     if (!user || !user.hashdRt) throw new ForbiddenException('Access Denied.');
 
