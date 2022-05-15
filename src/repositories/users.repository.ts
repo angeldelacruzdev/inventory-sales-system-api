@@ -17,7 +17,7 @@ export class UserRepository extends Repository<Users> {
     return await this.find();
   }
 
-  async findById(id: number) {
+  async findOneById(id: number) {
     return await this.findOne(id);
   }
 
