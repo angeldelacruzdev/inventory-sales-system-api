@@ -15,7 +15,7 @@ import { Users } from './users.entity';
 
 @Entity()
 export class Person {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn({ type: 'bigint', unsigned: true })
   id: number;
 
   @Index()
