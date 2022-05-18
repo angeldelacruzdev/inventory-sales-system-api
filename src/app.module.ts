@@ -10,6 +10,7 @@ import { AtGuard } from './common/guards';
 import { CategoryModule } from './category/category.module';
 import { ProductModule } from './product/product.module';
 import { PersonModule } from './person/person.module';
+import { SalesModule } from './sales/sales.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { PersonModule } from './person/person.module';
     CategoryModule,
     ProductModule,
     PersonModule,
+    SalesModule,
   ],
   controllers: [AppController],
   providers: [
