@@ -6,4 +6,6 @@ export class CreateSaleDto {
   cash: any;
   createdAt: Date;
   updatedAt: Date;
+  pruducts?: [];
+  libras?: [];
 }

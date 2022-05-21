@@ -5,4 +5,5 @@ export class Sale {
   discount: number;
   createdAt: Date;
   updatedAt: Date;
+  pruducts?:[]
 }

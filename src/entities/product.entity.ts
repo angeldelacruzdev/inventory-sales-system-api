@@ -40,10 +40,10 @@ export class Product {
   presentation: string;
 
   @Column({ type: 'decimal', precision: 14, scale: 4 })
-  price_in: number;
+  price_in: string;
 
   @Column({ type: 'decimal', precision: 14, scale: 4 })
-  price_out: number;
+  price_out: string;
 
   @ManyToOne(() => Category)
   @JoinColumn({ name: "categoryId" })

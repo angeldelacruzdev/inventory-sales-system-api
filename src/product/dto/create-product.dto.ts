@@ -7,8 +7,8 @@ export class CreateProductDto {
   inventory_min: number;
   unit: string;
   presentation: string;
-  price_in: number;
-  price_out: number;
+  price_in: string;
+  price_out: string;
   is_active: boolean;
   created_at: Date;
   updated_at: Date;
