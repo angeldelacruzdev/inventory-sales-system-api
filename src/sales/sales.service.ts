@@ -6,6 +6,12 @@ import { SalesRepository } from './../repositories/sales.repository';
 export class SalesService {
   constructor(private repository: SalesRepository) {}
 
+ /**
+  * This function takes in a CreateSaleDto object, and returns a promise that resolves to a Sale
+  * object.
+  * @param {CreateSaleDto} createSaleDto - CreateSaleDto
+  * @returns The createSaleDto is being returned.
+  */
   async create(createSaleDto: CreateSaleDto) {
     return await this.repository.createSale(createSaleDto);
   }

@@ -45,12 +45,18 @@ export class Product {
   @Column({ type: 'decimal', precision: 14, scale: 4 })
   price_out: string;
 
+  @Column({ type: 'decimal', precision: 14, scale: 4 })
+  offer_price: string;
+
+  @Column({ type: 'decimal', precision: 14, scale: 4 })
+  taxes: string;
+
   @ManyToOne(() => Category)
-  @JoinColumn({ name: "categoryId" })
+  @JoinColumn({ name: 'categoryId' })
   category: Category;
 
   @ManyToOne(() => Users)
-  @JoinColumn({ name: "userId" })
+  @JoinColumn({ name: 'userId' })
   user: Users;
 
   @Column()

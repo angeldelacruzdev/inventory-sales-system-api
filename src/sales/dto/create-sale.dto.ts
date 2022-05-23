@@ -1,3 +1,5 @@
+import { Product } from './../../entities/product.entity';
+
 export class CreateSaleDto {
   person: any;
   user: any;
@@ -6,6 +8,7 @@ export class CreateSaleDto {
   cash: any;
   createdAt: Date;
   updatedAt: Date;
-  pruducts?: [];
-  libras?: [];
+  products?: Product[];
+  pruductsIds?: [];
+  sales_products?: [];
 }

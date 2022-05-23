@@ -1,5 +1,3 @@
-import { Person } from './person.entity';
-import { Users } from './users.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -10,7 +8,13 @@ import {
   UpdateDateColumn,
   BeforeInsert,
   BeforeUpdate,
+  ManyToMany,
+  JoinTable,
 } from 'typeorm';
+import { Category } from './category.entity';
+import { Product } from './product.entity';
+import { Person } from './person.entity';
+import { Users } from './users.entity';
 
 @Entity()
 export class Sales {
@@ -20,6 +24,10 @@ export class Sales {
   @ManyToOne(() => Person)
   @JoinColumn({ name: 'personId' })
   person: Person;
+
+  @ManyToMany(() => Product)
+  @JoinTable()
+  products: Product[];
 
   @ManyToOne(() => Users)
   @JoinColumn({ name: 'userId' })
