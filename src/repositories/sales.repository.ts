@@ -7,6 +7,7 @@ import { EntityRepository, Repository, getManager } from 'typeorm';
 import { Sales } from './../entities/sales.entity';
 import { Users } from './../entities/users.entity';
 import { CreateSaleDto } from './../sales/dto/create-sale.dto';
+import { Configuration } from './../entities/configuration.entity';
 
 @EntityRepository(Sales)
 export class SalesRepository extends Repository<Sales> {
@@ -15,6 +16,7 @@ export class SalesRepository extends Repository<Sales> {
   async createSale(dto: CreateSaleDto) {
     /* Getting the products from the database. */
     let pruducts = await this.dataSource.findByIds(Product, dto.pruductsIds);
+    let confinguration = await this.dataSource.findOne(Configuration, 1);
 
     let totalInvoice = 0;
     let productList = [];
@@ -24,29 +26,15 @@ export class SalesRepository extends Repository<Sales> {
     pruducts.forEach((item) => {
       result = dto.sales_products.find(({ product }) => item.id == product);
 
-      if (result.pounds) {
-        let pounds = result.pounds * this.roundNumber(item.price_out, 2);
-        totalInvoice = totalInvoice + pounds;
+      let totalProducto = result.qty * this.roundNumber(item.price_out, 2);
+      totalInvoice = totalInvoice + totalProducto;
 
-        productList.push({
-          qty: `${result.pounds} ${item.unit}`,
-          total: pounds.toFixed(2),
-          impuesto: 0.0,
-          productName: item.name,
-        });
-      }
-
-      if (result.unit) {
-        let unit = result.unit * this.roundNumber(item.price_out, 2);
-        totalInvoice = totalInvoice + unit;
-
-        productList.push({
-          qty: `${result.unit} ${item.unit}`,
-          total: unit.toFixed(2),
-          impuesto: 0.0,
-          productName: item.name,
-        });
-      }
+      productList.push({
+        qty: `${result.qty} ${item.unit}`,
+        total: `${confinguration.currency}$${totalProducto.toFixed(2)}`,
+        impuesto: 0.0,
+        productName: item.name,
+      });
     });
 
     /* Getting the users from the database. */
@@ -70,14 +58,14 @@ export class SalesRepository extends Repository<Sales> {
       return {
         data: {
           sale: {
+            branch_office: confinguration.name,
+            invoice_message: confinguration.invoice_message,
             nombreCliente: 'Pedro',
             saleTime,
             saleDate,
             productList,
-            sale: {
-              saleTotal: totalInvoice.toFixed(2),
-              attendedBy: isCreated.user.full_name,
-            },
+            saleTotal: `${confinguration.currency}$${totalInvoice.toFixed(2)}`,
+            attendedBy: isCreated.user.full_name,
           },
           success: true,
           code: HttpStatus.ACCEPTED,
@@ -106,46 +94,19 @@ export class SalesRepository extends Repository<Sales> {
     }
   }
 
-  /**
-   * It takes an array of objects, and for each object in the array, it calls a function that returns a
-   * promise.
-   *
-   * The function that returns a promise is called `reduceInventoryProduct`.
-   *
-   * The function `reduceInventoryProduct` is called with two arguments: `id` and `unit`.
-   *
-   * The `id` and `unit` arguments are taken from the object in the array.
-   *
-   * The function `reduceInventoryProduct` returns a promise.
-   *
-   * The function `reduceInventoryProduct` is called for each object in the array.
-   *
-   * The function `reduceInventoryProduct` is called with the `id` and `unit` arguments taken from the
-   * object in the array.
-   *
-   * The function `
-   * @param {CreateSaleDto} dto - CreateSaleDto
-   */
   private async renameFieldProductSales(dto: CreateSaleDto) {
     let renameFieldSalesPruduct = [];
+
     dto.sales_products.map((itemP: any) => {
-      if (itemP.pounds) {
-        renameFieldSalesPruduct.push({
-          id: itemP.product,
-          unit: itemP.pounds,
-        });
-      }
-      if (itemP.unit) {
-        renameFieldSalesPruduct.push({
-          id: itemP.product,
-          unit: itemP.unit,
-        });
-      }
+      renameFieldSalesPruduct.push({
+        id: itemP.product,
+        qty: itemP.qty,
+      });
     });
 
     renameFieldSalesPruduct.forEach(
-      async ({ id, unit }: { id: number; unit: string }) => {
-        await this.reduceInventoryProduct(id, unit);
+      async ({ id, qty }: { id: number; qty: string }) => {
+        await this.reduceInventoryProduct(id, qty);
       },
     );
   }
@@ -157,7 +118,7 @@ export class SalesRepository extends Repository<Sales> {
   async finAll() {
     return this.createQueryBuilder('sales')
       .leftJoinAndSelect('sales.user', 'user')
-      .leftJoinAndSelect("sales.products", "product")
+      .leftJoinAndSelect('sales.products', 'product')
       .getMany();
   }
 
