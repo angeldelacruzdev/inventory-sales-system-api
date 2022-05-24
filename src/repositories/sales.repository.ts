@@ -8,6 +8,7 @@ import { Sales } from './../entities/sales.entity';
 import { Users } from './../entities/users.entity';
 import { CreateSaleDto } from './../sales/dto/create-sale.dto';
 import { Configuration } from './../entities/configuration.entity';
+import { Person } from './../entities/person.entity';
 
 @EntityRepository(Sales)
 export class SalesRepository extends Repository<Sales> {
@@ -17,6 +18,12 @@ export class SalesRepository extends Repository<Sales> {
     /* Getting the products from the database. */
     let pruducts = await this.dataSource.findByIds(Product, dto.pruductsIds);
     let confinguration = await this.dataSource.findOne(Configuration, 1);
+    let custumer = 'Cliente no registrado';
+    if (dto.customer) {
+      let customerDb = await this.dataSource.findOne(Person, dto.customer);
+      custumer = customerDb.full_name;
+      dto.person = customerDb;
+    }
 
     let totalInvoice = 0;
     let productList = [];
@@ -60,7 +67,7 @@ export class SalesRepository extends Repository<Sales> {
           sale: {
             branch_office: confinguration.name,
             invoice_message: confinguration.invoice_message,
-            nombreCliente: 'Pedro',
+            nombreCliente: custumer,
             saleTime,
             saleDate,
             productList,

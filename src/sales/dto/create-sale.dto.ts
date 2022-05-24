@@ -11,4 +11,5 @@ export class CreateSaleDto {
   products?: Product[];
   pruductsIds?: [];
   sales_products?: [];
+  customer?:number
 }
