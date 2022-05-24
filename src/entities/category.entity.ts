@@ -3,6 +3,9 @@ import {
   Column,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
+  CreateDateColumn,
+  BeforeInsert,
+  BeforeUpdate,
 } from 'typeorm';
 
 @Entity()
@@ -19,10 +22,19 @@ export class Category {
   @Column({ type: 'varchar', length: 255 })
   image: string;
 
-  @Column({ type: 'datetime', nullable: true })
-  created_at: Date;
+  @CreateDateColumn({ type: 'timestamp' })
+  createdAt: Date;
 
-  @UpdateDateColumn({ name: 'updated_at', nullable: true })
-  @Column({ type: 'datetime' })
-  updated_at: Date;
+  @UpdateDateColumn({ type: 'timestamp' })
+  updatedAt: Date;
+
+  @BeforeInsert()
+  updateDateCreation() {
+    this.createdAt = new Date();
+  }
+
+  @BeforeUpdate()
+  updateDateUpdate() {
+    this.updatedAt = new Date();
+  }
 }

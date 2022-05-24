@@ -3,6 +3,9 @@ import {
   Column,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
+  CreateDateColumn,
+  BeforeInsert,
+  BeforeUpdate,
 } from 'typeorm';
 
 @Entity()
@@ -28,10 +31,19 @@ export class Users {
   @Column({ default: false })
   is_admin: boolean;
 
-  @Column({ type: 'datetime' })
-  created_at: Date;
+  @CreateDateColumn({ type: 'timestamp' })
+  createdAt: Date;
 
-  @UpdateDateColumn({ name: 'updated_at', nullable: true })
-  @Column({ type: 'datetime' })
-  updated_at: Date;
+  @UpdateDateColumn({ type: 'timestamp' })
+  updatedAt: Date;
+
+  @BeforeInsert()
+  updateDateCreation() {
+    this.createdAt = new Date();
+  }
+
+  @BeforeUpdate()
+  updateDateUpdate() {
+    this.updatedAt = new Date();
+  }
 }

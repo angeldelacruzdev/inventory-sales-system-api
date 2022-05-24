@@ -8,6 +8,9 @@ import {
   JoinColumn,
   Index,
   ManyToOne,
+  BeforeUpdate,
+  BeforeInsert,
+  CreateDateColumn,
 } from 'typeorm';
 
 @Entity()
@@ -62,10 +65,19 @@ export class Product {
   @Column()
   is_active: boolean;
 
-  @Column({ type: 'datetime', nullable: true })
-  created_at: Date;
+  @CreateDateColumn({ type: 'timestamp' })
+  createdAt: Date;
 
-  @UpdateDateColumn({ name: 'updated_at', nullable: true })
-  @Column({ type: 'datetime' })
-  updated_at: Date;
+  @UpdateDateColumn({ type: 'timestamp' })
+  updatedAt: Date;
+
+  @BeforeInsert()
+  updateDateCreation() {
+    this.createdAt = new Date();
+  }
+
+  @BeforeUpdate()
+  updateDateUpdate() {
+    this.updatedAt = new Date();
+  }
 }
