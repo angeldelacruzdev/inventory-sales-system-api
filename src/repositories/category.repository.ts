@@ -9,7 +9,22 @@ export class CategoryRepository extends Repository<Category> {
     dto.created_at = new Date();
     dto.updated_at = new Date();
 
-    return await this.save(dto);
+    let isCreated = await this.save(dto);
+    if (isCreated) {
+      return {
+        data: {
+          message: 'Categoría creada con éxito.',
+          success: true,
+        },
+      };
+    } else {
+      return {
+        data: {
+          message: 'Categoría no creada.',
+          success: false,
+        },
+      };
+    }
   }
 
   async updateOne(id: number, dto: UpdateCategoryDto) {
@@ -17,8 +32,17 @@ export class CategoryRepository extends Repository<Category> {
     let isUpdate = await this.update(id, dto);
     if (isUpdate) {
       return {
-        ok: true,
-        msg: 'Actualizado con éxito.',
+        data: {
+          message: 'Categoría actualizada con éxito.',
+          success: true,
+        },
+      };
+    } else {
+      return {
+        data: {
+          message: 'Categoría no actualizada.',
+          success: false,
+        },
       };
     }
   }
@@ -27,8 +51,17 @@ export class CategoryRepository extends Repository<Category> {
     let isDelete = await this.delete(id);
     if (isDelete) {
       return {
-        ok: true,
-        msg: 'Eliminado con éxito.',
+        data: {
+          message: 'Categoría eliminada con éxito.',
+          success: true,
+        },
+      };
+    } else {
+      return {
+        data: {
+          message: 'Categoría no eliminada.',
+          success: false,
+        },
       };
     }
   }

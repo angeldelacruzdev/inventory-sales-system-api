@@ -25,8 +25,17 @@ export class UserRepository extends Repository<Users> {
     let isUpdate = await this.update(id, dto);
     if (isUpdate) {
       return {
-        ok: true,
-        msg: 'actualizado con éxito.',
+        data: {
+          message: 'User updated successfully',
+          success: true,
+        },
+      };
+    } else {
+      return {
+        data: {
+          message: 'User not updated',
+          success: false,
+        },
       };
     }
   }
@@ -40,8 +49,17 @@ export class UserRepository extends Repository<Users> {
 
     if (isDeleted) {
       return {
-        ok: true,
-        msg: 'Eliminado con éxito.',
+        data: {
+          message: 'User deleted successfully',
+          success: true,
+        },
+      };
+    } else {
+      return {
+        data: {
+          message: 'User not deleted',
+          success: false,
+        },
       };
     }
   }

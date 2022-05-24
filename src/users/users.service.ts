@@ -16,7 +16,23 @@ export class UsersService {
     createUserDto.password = hash;
     createUserDto.created_at = new Date();
     createUserDto.updated_at = new Date();
-    return await this.usersRepository.saveOne(createUserDto);
+
+    let isCreated = await this.usersRepository.saveOne(createUserDto);
+    if (isCreated) {
+      return {
+        data: {
+          message: 'User created successfully',
+          success: true,
+        },
+      };
+    } else {
+      return {
+        data: {
+          message: 'User not created',
+          success: false,
+        },
+      };
+    }
   }
 
   async register(createUserDto: Register) {
