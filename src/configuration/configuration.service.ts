@@ -1,26 +1,72 @@
 import { Injectable } from '@nestjs/common';
 import { CreateConfigurationDto } from './dto/create-configuration.dto';
 import { UpdateConfigurationDto } from './dto/update-configuration.dto';
+import { ConfigurationRepository } from './../repositories/configuration.repository';
 
 @Injectable()
 export class ConfigurationService {
-  create(createConfigurationDto: CreateConfigurationDto) {
-    return 'This action adds a new configuration';
+  constructor(private repository: ConfigurationRepository) {}
+
+  async create(createConfigurationDto: CreateConfigurationDto) {
+    let isCreated = await this.repository.save(createConfigurationDto);
+
+    if (isCreated) {
+      return {
+        message: 'Configuration created successfully',
+        status: 201,
+      };
+    } else {
+      return {
+        message: 'Configuration not created',
+        status: 400,
+      };
+    }
+  }
+  async findAll() {
+    return await this.repository.find();
   }
 
-  findAll() {
-    return `This action returns all configuration`;
+  async findOne(id: number) {
+    return await this.repository.findOne(id);
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} configuration`;
+  async update(id: number, updateConfigurationDto: UpdateConfigurationDto) {
+    let isUpdated = await this.repository.update(id, updateConfigurationDto);
+
+    if (isUpdated) {
+      return {
+        message: 'Configuration updated successfully',
+        status: 201,
+      };
+    } else {
+      return {
+        message: 'Configuration not updated',
+        status: 400,
+      };
+    }
   }
 
-  update(id: number, updateConfigurationDto: UpdateConfigurationDto) {
-    return `This action updates a #${id} configuration`;
+  async selectLastConfiguration() {
+    return await this.repository
+      .createQueryBuilder('configuration')
+      .limit(1)
+      .orderBy('configuration.id', 'DESC')
+      .getOne();
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} configuration`;
+  async remove(id: number) {
+    let isDeleted = await this.repository.delete(id);
+
+    if (isDeleted) {
+      return {
+        message: 'Configuration deleted successfully',
+        status: 201,
+      };
+    } else {
+      return {
+        message: 'Configuration not deleted',
+        status: 400,
+      };
+    }
   }
 }
