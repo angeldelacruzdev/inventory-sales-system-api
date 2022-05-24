@@ -11,6 +11,7 @@ import { CategoryModule } from './category/category.module';
 import { ProductModule } from './product/product.module';
 import { PersonModule } from './person/person.module';
 import { SalesModule } from './sales/sales.module';
+import { ConfigurationModule } from './configuration/configuration.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { SalesModule } from './sales/sales.module';
     ProductModule,
     PersonModule,
     SalesModule,
+    ConfigurationModule,
   ],
   controllers: [AppController],
   providers: [
