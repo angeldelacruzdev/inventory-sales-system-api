@@ -17,40 +17,37 @@ export class SalesRepository extends Repository<Sales> {
   async createSale(dto: CreateSaleDto) {
     /* Getting the products from the database. */
     let pruducts = await this.dataSource.findByIds(Product, dto.pruductsIds);
+
+    //Business setup
     let confinguration = await this.dataSource.findOne(Configuration, 1);
-    let custumer = 'Cliente no registrado';
+
+    let custumerNameAndMessage = 'Cliente no registrado';
     if (dto.customer) {
       let customerDb = await this.dataSource.findOne(Person, dto.customer);
-      custumer = customerDb.full_name;
+      custumerNameAndMessage = customerDb.full_name;
       dto.person = customerDb;
     }
 
-    let totalInvoice = 0;
+    let totalAmout = 0;
     let productList = [];
     let result: any;
 
-    /* A function that is responsible for calculating the total of the invoice. */
-    pruducts.forEach((item) => {
-      result = dto.sales_products.find(({ product }) => item.id == product);
-
-      let totalProducto = result.qty * this.roundNumber(item.price_out, 2);
-      totalInvoice = totalInvoice + totalProducto;
-
-      productList.push({
-        qty: `${result.qty} ${item.unit}`,
-        total: `${confinguration.currency}$${totalProducto.toFixed(2)}`,
-        impuesto: 0.0,
-        productName: item.name,
-      });
-    });
+    /* A function that is responsible forcalculate total purchase. */
+    ({ result, totalAmout } = this.calculateTotalPurchase(
+      pruducts,
+      result,
+      dto,
+      totalAmout,
+      productList,
+      confinguration,
+    ));
 
     /* Getting the users from the database. */
     let users = await this.dataSource.findOne(Users, dto.user);
     dto.user = users;
 
-    dto.cash = totalInvoice;
-
-    dto.products = pruducts;
+    dto.cash = totalAmout;
+    dto.products = pruducts; //List products
 
     let isCreated = await this.save(dto);
 
@@ -67,11 +64,11 @@ export class SalesRepository extends Repository<Sales> {
           sale: {
             branch_office: confinguration.name,
             invoice_message: confinguration.invoice_message,
-            nombreCliente: custumer,
+            nombreCliente: custumerNameAndMessage,
             saleTime,
             saleDate,
             productList,
-            saleTotal: `${confinguration.currency}$${totalInvoice.toFixed(2)}`,
+            saleTotal: `${confinguration.currency}$${totalAmout.toFixed(2)}`,
             attendedBy: isCreated.user.full_name,
           },
           success: true,
@@ -101,8 +98,33 @@ export class SalesRepository extends Repository<Sales> {
     }
   }
 
+  private calculateTotalPurchase(
+    pruducts: Product[],
+    result: any,
+    dto: CreateSaleDto,
+    totalAmout: number,
+    productList: any[],
+    confinguration: Configuration,
+  ) {
+    pruducts.forEach((item) => {
+      result = dto.sales_products.find(({ product }) => item.id == product);
+
+      let totalAmountProducto =
+        result.qty * this.roundNumber(item.price_out, 2);
+      totalAmout = totalAmout + totalAmountProducto;
+
+      productList.push({
+        qty: `${result.qty} ${item.unit}`,
+        total: `${confinguration.currency}$${totalAmountProducto.toFixed(2)}`,
+        impuesto: 0.0,
+        productName: item.name,
+      });
+    });
+    return { result, totalAmout };
+  }
+
   private async renameFieldProductSales(dto: CreateSaleDto) {
-    let renameFieldSalesPruduct = [];
+    let renameFieldSalesPruduct = []; //Array of objects
 
     dto.sales_products.map((itemP: any) => {
       renameFieldSalesPruduct.push({
@@ -113,7 +135,7 @@ export class SalesRepository extends Repository<Sales> {
 
     renameFieldSalesPruduct.forEach(
       async ({ id, qty }: { id: number; qty: string }) => {
-        await this.reduceInventoryProduct(id, qty);
+        await this.reduceInventoryProduct(id, qty); //Reduce the inventory of the product.
       },
     );
   }
@@ -146,6 +168,6 @@ export class SalesRepository extends Repository<Sales> {
    * @param {any} qty - number
    */
   private async reduceInventoryProduct(id: number, qty: any) {
-    await this.dataSource.decrement(Product, { id: id }, 'inventory_min', qty);
+    await this.dataSource.decrement(Product, { id: id }, 'inventory_min', qty); //Reduce the inventory of the product.
   }
 }
