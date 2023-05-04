@@ -3,7 +3,7 @@ import * as bcrypt from 'bcrypt';
 
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { UserRepository } from '../repositories/users.repository';
+import { UserRepository } from '../data/repositories/users.repository';
 import { Users } from './../entities/users.entity';
 import { Register } from './../inferfaces/register.interface';
 

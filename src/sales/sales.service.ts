@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateSaleDto } from './dto/create-sale.dto';
 import { UpdateSaleDto } from './dto/update-sale.dto';
-import { SalesRepository } from './../repositories/sales.repository';
+import { SalesRepository } from '../data/repositories/sales.repository';
 @Injectable()
 export class SalesService {
   constructor(private repository: SalesRepository) {}

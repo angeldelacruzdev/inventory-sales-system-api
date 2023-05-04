@@ -1,11 +1,11 @@
-import { UserRepository } from './../repositories/users.repository';
-import { CategoryRepository } from './../repositories/category.repository';
+import { UserRepository } from '../data/repositories/users.repository';
+import { CategoryRepository } from '../data/repositories/category.repository';
 
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Module } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { ProductController } from './product.controller';
-import { ProductRepository } from './../repositories/product.repository';
+import { ProductRepository } from '../data/repositories/product.repository';
 
 @Module({
   imports: [

@@ -1,14 +1,14 @@
 import { HttpStatus } from '@nestjs/common';
 import * as moment from 'moment';
 import 'moment/locale/es-do';
-import { Product } from './../entities/product.entity';
+import { Product } from '../../entities/product.entity';
 
 import { EntityRepository, Repository, getManager } from 'typeorm';
-import { Sales } from './../entities/sales.entity';
-import { Users } from './../entities/users.entity';
-import { CreateSaleDto } from './../sales/dto/create-sale.dto';
-import { Configuration } from './../entities/configuration.entity';
-import { Person } from './../entities/person.entity';
+import { Sales } from '../../entities/sales.entity';
+import { Users } from '../../entities/users.entity';
+import { CreateSaleDto } from '../../sales/dto/create-sale.dto';
+import { Configuration } from '../../entities/configuration.entity';
+import { Person } from '../../entities/person.entity';
 
 @EntityRepository(Sales)
 export class SalesRepository extends Repository<Sales> {

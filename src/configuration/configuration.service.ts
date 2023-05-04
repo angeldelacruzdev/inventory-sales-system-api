@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { CreateConfigurationDto } from './dto/create-configuration.dto';
 import { UpdateConfigurationDto } from './dto/update-configuration.dto';
-import { ConfigurationRepository } from './../repositories/configuration.repository';
+import { ConfigurationRepository } from '../data/repositories/configuration.repository';
 
 @Injectable()
 export class ConfigurationService {
   constructor(private repository: ConfigurationRepository) {}
 
   async create(createConfigurationDto: CreateConfigurationDto) {
-    let isCreated = await this.repository.save(createConfigurationDto);
+    let isCreated = await this.repository.createOne(createConfigurationDto);
 
     if (isCreated) {
       return {
@@ -23,7 +23,7 @@ export class ConfigurationService {
     }
   }
   async findAll() {
-    return await this.repository.find();
+    return await this.repository.findMany();
   }
 
   async findOne(id: number) {
@@ -31,7 +31,7 @@ export class ConfigurationService {
   }
 
   async update(id: number, updateConfigurationDto: UpdateConfigurationDto) {
-    let isUpdated = await this.repository.update(id, updateConfigurationDto);
+    let isUpdated = await this.repository.updateOne(id, updateConfigurationDto);
 
     if (isUpdated) {
       return {

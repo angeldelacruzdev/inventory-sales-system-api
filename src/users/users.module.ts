@@ -1,4 +1,4 @@
-import { UserRepository } from '../repositories/users.repository';
+import { UserRepository } from '../data/repositories/users.repository';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Module } from '@nestjs/common';
 import { UsersService } from './users.service';

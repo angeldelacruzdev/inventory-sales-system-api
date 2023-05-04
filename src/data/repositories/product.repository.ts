@@ -1,10 +1,10 @@
 import { EntityRepository, Repository, getManager } from 'typeorm';
-import { Product } from './../entities/product.entity';
-import { CreateProductDto } from './../product/dto/create-product.dto';
-import { UpdateProductDto } from './../product/dto/update-product.dto';
+import { Product } from '../../entities/product.entity';
+import { CreateProductDto } from '../../product/dto/create-product.dto';
+import { UpdateProductDto } from '../../product/dto/update-product.dto';
 
-import { Category } from './../entities/category.entity';
-import { Users } from './../entities/users.entity';
+import { Category } from '../../entities/category.entity';
+import { Users } from '../../entities/users.entity';
 
 @EntityRepository(Product)
 export class ProductRepository extends Repository<Product> {

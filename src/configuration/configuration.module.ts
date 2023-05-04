@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigurationService } from './configuration.service';
 import { ConfigurationController } from './configuration.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ConfigurationRepository } from './../repositories/configuration.repository';
+import { ConfigurationRepository } from '../data/repositories/configuration.repository';
 
 @Module({
   imports: [TypeOrmModule.forFeature([ConfigurationRepository])],

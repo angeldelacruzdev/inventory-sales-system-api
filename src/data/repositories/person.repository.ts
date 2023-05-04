@@ -1,8 +1,8 @@
-import { UpdatePersonDto } from './../person/dto/update-person.dto';
+import { UpdatePersonDto } from '../../person/dto/update-person.dto';
 import { EntityRepository, Repository, getManager } from 'typeorm';
-import { CreatePersonDto } from './../person/dto/create-person.dto';
-import { Person } from './../entities/person.entity';
-import { Users } from './../entities/users.entity';
+import { CreatePersonDto } from '../../person/dto/create-person.dto';
+import { Person } from '../../entities/person.entity';
+import { Users } from '../../entities/users.entity';
 
 @EntityRepository(Person)
 export class PersonRepository extends Repository<Person> {
